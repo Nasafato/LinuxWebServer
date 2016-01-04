@@ -1,7 +1,7 @@
 # Linux Web Server
------
 
-## Accessing the Server
+
+# Accessing the Server
 [IP Address](http://52.33.24.184) - `52.33.24.184` 
 [Web Address](http://ec2-52-33-24-184.us-west-2.compute.amazonaws.com) - `ec2-52-33-24-184.us-west-2.compute.amazonaws.com`
 
@@ -12,16 +12,16 @@ ssh -i ~/.ssh/grader_key -p 2200 grader@52.33.24.184
 ```
 In case you ever need it, `grader` has password `password`, but password login is disabled.
 
-## Configuration Steps
+# Configuration Steps
 
-### Step 1: Updating and Upgrading
+## Step 1: Updating and Upgrading
 
 ```sh
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get autoremove
 ```
-### Step 2: Changing User Settings and Creating New Ones
+## Step 2: Changing User Settings and Creating New Ones
 
 ```sh
 sudo adduser grader
@@ -38,7 +38,7 @@ Also, add the following line to `/etc/hosts`:
 127.0.1.1 ip-10-20-23-147
 ```
 
-### Step 3: Setting up RSA login for `grader`
+## Step 3: Setting up RSA login for `grader`
 
 On local machine:
 
@@ -65,7 +65,7 @@ chmod 700 .ssh
 chmod 644 .ssh/authorized_keys
 ```
 
-### Step 4: Disabling Password Login
+## Step 4: Disabling Password Login
 Change the `sshd_config` file in the following way:
 
 ```sh
@@ -88,7 +88,7 @@ Now, restart the `ssh` service:
 sudo service ssh restart
 ```
 
-### Step 5: Setting up Firewall and Changing Ports
+## Step 5: Setting up Firewall and Changing Ports
 Change the `ssh` port:
 
 ```sh
@@ -123,7 +123,7 @@ sudo ufw allow http
 sudo ufw enable
 ```
 
-### Step 6: Changing Timezone
+## Step 6: Changing Timezone
 **Sources**
 
 * [AskUbuntu post](http://askubuntu.com/questions/138423/how-do-i-change-my-timezone-to-utc-gmt)
@@ -135,7 +135,7 @@ dpkg-reconfiguration tzdata
 ```
 
 
-### Step 7: Setting up Packages
+## Step 7: Setting up Packages
 From my catalog application's readme:
 
 ```sh
@@ -161,7 +161,7 @@ Install PostgreSQL:
 sudo apt-get install postgresql
 ```
 
-### Step 8: Configuring PostgreSQL
+## Step 8: Configuring PostgreSQL
 **Sources**
 
 * [Postgres Documentation on adding users](http://www.postgresql.org/docs/9.1/static/app-createuser.html)
@@ -183,12 +183,12 @@ createdb catalog
 
 The connect string for this database is `postgres://catalog:8c33481e-9a13-4f23-89bd-8e81beecdd5d@localhost/catalog`.
 
-### Step 9: Setting up Application with Apache
+## Step 9: Setting up Application with Apache
 **Sources**
 
 * [Flask documentation for deploying to Apache](http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/#creating-a-wsgi-file)
 
-#### Part 1 - Make Apache Serve the App
+### Part 1 - Make Apache Serve the App
 Create the directory structure:
 
 ```sh
@@ -251,7 +251,7 @@ Now, edit `/etc/apache2/sites-enabled/000-default.conf`:
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 ```
-#### Part 2 - Make the App Work
+### Part 2 - Make the App Work
 In `/var/www/catalog/catalog/`, edit `application.py`, `database_setup.py`, and `insert_items.py`.
 
 Replace this line:
@@ -355,19 +355,19 @@ For Facebook, in **Settings** -> **Advanced** -> **Valid OAuth redirect URIs**, 
 
 Now the app should work!
 
-### Step 10 - glances and fail2ban
+## Step 10 - glances and fail2ban
 **Sources**
 
 * [Configuring fail2ban](https://blog.vigilcode.com/2011/05/ufw-with-fail2ban-quick-secure-setup-part-ii/)
 
-#### Part 1 - Installing `glances`
+### Part 1 - Installing `glances`
 I first installed `glances`, which is very easy:
 
 ```sh
 sudo apt-get install glances
 ```
 
-#### Part 2 - Installing and Configuring `fail2ban` with `ufw`
+### Part 2 - Installing and Configuring `fail2ban` with `ufw`
 First install it, then start editing `/etc/fail2ban/jail.local`:
 
 ```
